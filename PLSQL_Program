@@ -1,0 +1,72 @@
+Create table Account_Holder_Details(S_no INT Primary key,Name varchar2(100),City varchar2(100),Account_balance INT);
+
+Insert into Account_Holder_Details Values(1,'Swatika','Lucknow',5000);
+Insert into Account_Holder_Details Values(2,'Riya','Nagpur',2000);
+Insert into Account_Holder_Details Values(3,'Ram','Delhi',1500);
+Insert into Account_Holder_Details Values(4,'Ajay','Pune',4000);
+
+------------------------------------------------------------------------------------------------------------------------------------
+Day 4
+
+Q1) Write a sp to update bank balance, if account balance is less than 3000, deduct 1000 rupees as redemption else insert a balnce of 1000 rupees.
+
+Create or replace procedure update_sal
+IS
+
+  CursoR I 
+   IS
+     Select * from Account_Holder_Details;
+     rec_I I%rowtype;
+
+BEGIN
+   OPEN I;
+    LOOP
+       FETCH I into rec_I;
+
+       IF rec_i.Account_Balance<3000 THEN
+         Update Account_Holder_Details
+         SET Account_Balance= Account_Balance - 1000
+
+      else 
+
+         Update Account_Holder_Details
+         SET Account_Balance= Account_Balance + 1000
+      END IF;
+
+      END LOOP;
+      CLOSE I;
+END;
+/
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+Day 4
+
+Q2) Write a function to return count of account an user holds.
+
+
+Sol:
+
+DROP TABLE Account_Holder_Details;
+
+Create table Account_Holder_Details(S_no INT Primary key,Name varchar2(100),City varchar2(100),Account_Number int,Account_balance INT));
+
+Insert into Account_Holder_Details Values(1,'Swatika','Lucknow',5009810,5000);
+Insert into Account_Holder_Details Values(2,'Swatika','Lucknow',5009811,5000);
+Insert into Account_Holder_Details Values(3,'Riya','Nagpur',5009812,2000);
+Insert into Account_Holder_Details Values(4,'Riya','Nagpur',5009813,2000);
+Insert into Account_Holder_Details Values(5,'Ram','Delhi',5009814,1500);
+Insert into Account_Holder_Details Values(6,'Ajay','Pune',5009815,4000);
+
+---Function creation 
+
+Create or replace Function Total_Number_of_Account_Holder(AHN IN varchar2)
+Return Number IS
+          Total number(2) :=0;
+   
+     BEGIN
+          Select count(1) into Total
+          from Account_Holder_Details where Name=AHN;
+          Return Total;
+
+     End;
+/

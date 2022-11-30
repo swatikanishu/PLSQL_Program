@@ -1,0 +1,22 @@
+day 5
+
+create an autonomous transaction to update bank details, along with main transaction to insert new bank account with commit and rollback.
+
+Create table Account_Holder_Details(S_no INT Primary key,Name varchar2(100),City varchar2(100),Account_balance INT,account_number INT);
+
+Insert into Account_Holder_Details Values(1,'Swatika','Lucknow',5000,300987653);
+Insert into Account_Holder_Details Values(2,'Virat','Nagpur',2000,300987654);
+Insert into Account_Holder_Details Values(3,'Ram','Delhi',1500,300987655);
+Insert into Account_Holder_Details Values(4,'Ajay','Pune',4000,300987656);
+
+create trigger update_account
+after insert on transactions
+begin 
+    update Account_Holder_Details
+    SET account_number=CASE
+                 WHEN new.account_number THEN account_number=new.account_number
+                 ELSE account_number
+                 END
+    WHERE Name=new.Name;
+    Commit;
+    END;
